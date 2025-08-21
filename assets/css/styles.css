@@ -1,0 +1,733 @@
+@font-face {
+  font-family: 'CocogooseSemiLight';
+  src: url('fonts/COCOGOOSE-CONDENSED-SEMILIGHT-TRIAL.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Google Fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&family=Open+Sans:wght@400;500;700&display=swap');
+
+/* ====== VARIABLES ====== */
+:root {
+  --font-heading: 'CocogooseSemiLight', sans-serif;
+  --font-body: 'Lora', 'Open Sans', sans-serif;
+
+  --brand-red: #cc0000;
+  --brand-red-dark: #a30000;
+  --ink: #222;
+  --paper: #fff;
+  --radius: 16px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.08);
+  --shadow-md: 0 6px 20px rgba(0,0,0,.12);
+
+  /* ===== NAV VARS (cleaned, no chrome) ===== */
+  --nav-h: 70px;
+  --logo-w: 180px;
+
+  /* Layer toggles: 1=show, 0=hide */
+  --show-rect: 1;   /* black rectangle behind logo */
+  --show-wedge: 1;  /* black triangle wedge */
+
+  /* Keep black shapes just inside the 1px border */
+  --frame-inset: 0px;
+
+  /* Wedge geometry (distance from wedge-left to seam at TOP) */
+  --seam-top-x: 100px;
+}
+
+/* ====== BASE ====== */
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  margin: 0;
+  background-color: #fff;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
+
+/* ====== NAVIGATION (cleaned, no chrome stripe) ====== */
+nav {
+  position: sticky;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  z-index: 1000;
+
+  /* frame + brand */
+  background: var(--brand-red);
+  border: 0px solid #000;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+
+  overflow: hidden; /* keep shapes inside border */
+}
+
+/* Logo block (sits above black shapes) */
+nav .logo{
+  position: relative;
+  z-index: 3; /* above wedge */
+  display: flex; align-items: center; justify-content: center;
+  height: 100%;
+  width: var(--logo-w);
+  padding: 0 12px;
+  flex-shrink: 0;
+  background: transparent;
+}
+nav .logo img{ height:100%; width:100%; object-fit:contain; display:block; }
+
+/* 1) BLACK RECTANGLE under the logo */
+nav .logo::before{
+  content: "";
+  position: absolute;
+  top: var(--frame-inset);
+  bottom: var(--frame-inset);
+  left: 0; right: 0;
+  background: #000;
+  z-index: 1;
+  opacity: var(--show-rect);
+  pointer-events: none;
+}
+
+/* 2) BLACK TRIANGLE wedge to the right of the rectangle */
+nav::before{
+  content: "";
+  position: absolute;
+  top: var(--frame-inset);
+  bottom: var(--frame-inset);
+  left: calc(var(--frame-inset) + var(--logo-w));
+  width: calc(var(--seam-top-x) + 1px);
+  background: #000;
+  clip-path: polygon(0 0, var(--seam-top-x) 0, 0 100%);
+  z-index: 1;
+  opacity: var(--show-wedge);
+  pointer-events: none;
+}
+
+/* Menu styles */
+nav ul{
+  flex: 1;
+  list-style: none;
+  display: flex;
+  justify-content: center; /* center the buttons as a group */
+  align-items: center;
+  gap: clamp(15px, 4vw, 36px);
+  margin: 0; padding: 0;
+  position: relative;
+  z-index: 2;
+}
+nav ul li{ flex: 0; }
+nav ul li a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+nav a.active{
+  text-decoration: underline;
+  background: rgba(255,255,255,.08);
+}
+
+/* ====== CAROUSEL ====== */
+.carousel {
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  height: clamp(260px, 45vh, 560px);
+  max-height: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #000;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 500ms ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 50% 50%;
+  background: #000;
+}
+
+/* Controls */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--brand-red);
+  color: #fff;
+  border: 1px solid var(--brand-red-dark);
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+.carousel-btn:hover { background: #b80000; }
+.carousel-btn:active { transform: translateY(-50%) scale(0.98); }
+.carousel-btn.prev { left: 24px; }
+.carousel-btn.next { right: 24px; }
+
+@media (max-width: 640px) {
+  .carousel-btn.prev { left: 14px; }
+  .carousel-btn.next { right: 14px; }
+}
+
+/* ====== HEADER ====== */
+header {
+  background-color: var(--brand-red);
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  border: 1px solid #000;
+  margin-top: 0;
+}
+header h1 { margin: 0 0 10px; font-size: 2.5em; }
+header p   { margin: 0 0 20px; font-size: 1.25em; }
+
+/* ====== BUTTONS ====== */
+.btn-primary {
+  background-color: #222;
+  color: #fff;
+  padding: 12px 24px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* ====== CONTENT SECTIONS ====== */
+section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+h2 { color: var(--brand-red); margin-top: 40px; }
+ul { list-style: none; padding: 0; }
+ul li { padding: 6px 0; }
+
+/* ====== FOOTER ====== */
+footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+  padding: 30px 20px;
+  border-top: 1px solid #ccc;
+  margin-top: 60px;
+}
+
+/* ====== PROJECT GALLERY CARDS ====== */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(14px, 2.4vw, 24px);
+  align-items: start;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid #000;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand-red);
+}
+
+.card > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  background: #f5f5f5;
+}
+
+.card .meta { padding: 14px 16px 18px; }
+
+.card .meta h3 {
+  margin: 0 0 6px;
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.card .meta p {
+  margin: 0;
+  color: #333;
+  font-size: 0.975rem;
+}
+
+.card:focus-within {
+  outline: 3px solid var(--brand-red);
+  outline-offset: 2px;
+  border-color: var(--brand-red);
+}
+/* ===== IMAGE-ONLY GALLERY ===== */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(12px, 2vw, 20px);
+}
+
+.card {
+  border: 0;                 /* remove heavy border */
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: transparent;
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* make the whole card a link target if you wrap images with <a> (optional) */
+.card a { display: block; }
+
+/* Image fills the card */
+.card > img,
+.card a > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 6 / 6;       /* adjust to taste: 1/1, 3/2, 16/9, etc. */
+  object-fit: cover;
+  object-position: center;
+  background: #000;
+}
+
+/* Hide the old text block (safe even if you forget to remove it in HTML) */
+.card .meta { display: none !important; }
+
+/* Keyboard focus ring if card is a link */
+.card:has(a:focus-visible) {
+  outline: 3px solid var(--brand-red);
+  outline-offset: 2px;
+}
+/* ===== IMAGE-ONLY GALLERY - 2 across ===== */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* force exactly 2 columns */
+  gap: clamp(12px, 2vw, 20px);
+}
+
+/* Responsive: stack to 1 column on small screens */
+@media (max-width: 640px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+}
+
+/* ====== MOBILE NAV TWEAKS ====== */
+@media (max-width: 640px){
+  :root{
+    --nav-h: 64px;
+    --logo-w: 150px;
+    --seam-top-x: 160px;
+  }
+}
+/* === NAV QUICK FIX: layout + stacking + button sizing === */
+
+/* make the nav a horizontal flex row */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+/* logo must sit in front of its black rectangle */
+nav .logo {
+  position: relative;
+  z-index: 4;              /* higher than wedge & rectangle */
+  flex-shrink: 0;
+  width: var(--logo-w);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+nav .logo::before { z-index: 1; }        /* black rectangle layer */
+nav .logo img {
+  position: relative;
+  z-index: 2;                             /* ensure image is above rectangle */
+  display: block;
+  height: 100%;
+  width: 105%;
+  object-fit: contain;
+}
+
+/* bring the menu back, visible, and centered in the red area */
+nav ul {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;                /* center the group */
+  gap: clamp(15px, 4vw, 36px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  height: 100%;
+  position: relative;
+  z-index: 3;                             /* above the wedge */
+}
+
+/* make the buttons fill the ribbon vertically so they’re obviously “in” the bar */
+nav ul li { list-style: none; }
+nav ul li a {
+  display: inline-flex;
+  align-items: center;
+  height: calc(var(--nav-h) - (var(--frame-inset) * 2));
+  padding: 0 18px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+/* keep the wedge below the links */
+nav::before { z-index: 1; }
+.meet-the-team {
+  background-color: #fff;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.meet-the-team h2 {
+  font-family: var(--font-heading, 'CocogooseSemiLight', sans-serif);
+  font-size: 2.2rem;
+  color: var(--brand-red, #cc0000);
+  margin-bottom: 2rem;
+}
+
+.team-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-member {
+  background-color: #f9f9f9;
+  border: 2px solid #000;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.team-member img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  border: 3px solid var(--brand-red, #cc0000);
+  object-fit: cover;
+  max-width: 200px;
+  margin-bottom: 1rem;
+}
+
+.team-member h3 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0 0;
+  color: #000;
+}
+
+.team-member .role {
+  font-weight: bold;
+  color: var(--brand-red, #cc0000);
+  margin-bottom: 0.5rem;
+}
+
+.team-member p {
+  font-size: 0.95rem;
+  color: #333;
+}
+.estimate-btn {
+  display: inline-block;
+  background-color: #222; /* black button */
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.estimate-btn:hover {
+  background-color: #000; /* slightly darker on hover */
+}
+/* ==== Split sections (robust) ==== */
+.split-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 equal columns */
+  gap: 24px;
+  align-items: center;
+  margin: 48px 0;
+}
+
+/* Images */
+.split-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px; /* optional */
+}
+
+/* Mobile stack */
+@media (max-width: 900px) {
+  .split-section {
+    grid-template-columns: 1fr;
+    text-align: center; /* friendlier on mobile */
+  }
+  .split-text { text-align: inherit; }
+}
+
+/* --- WHAT WE DO: text left, image right --- */
+#what-we-do .split-section { grid-auto-flow: column; }
+#what-we-do .split-text  { grid-column: 1; }
+#what-we-do .split-image { grid-column: 2; }
+
+/* --- WHY CHOOSE: image left, text right & RIGHT-ALIGNED TEXT --- */
+#why-choose-wheelwright .split-section { grid-auto-flow: column; }
+#why-choose-wheelwright .split-image { grid-column: 1; }
+#why-choose-wheelwright .split-text  { 
+  grid-column: 2;
+  text-align: right !important;      /* force text alignment */
+  justify-self: end;                 /* hug the right side of its column */
+  max-width: 680px;                  /* optional: tidy line length */
+  margin-left: auto;                 /* extra nudge right if something else adds width */
+}
+
+/* Fallback if some global CSS blocks grid: use flex */
+@supports not (grid-template-columns: subgrid) {
+  #what-we-do .split-section,
+  #why-choose-wheelwright .split-section {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  #what-we-do .split-text,
+  #why-choose-wheelwright .split-text { flex: 1; }
+  #what-we-do .split-image,
+  #why-choose-wheelwright .split-image { flex: 1; }
+  #why-choose-wheelwright .split-text {
+    margin-left: auto;
+    text-align: right !important;
+  }
+}
+/* Two-column split layout */
+.split-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* left side | right side */
+  gap: 24px;
+  align-items: center;
+  margin: 48px 0;
+}
+
+/* Make the text block ~2/3 of its side (left-aligned) */
+.split-text {
+  max-width: 66%;
+  text-align: left;
+}
+
+/* Images */
+.split-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px; /* optional */
+}
+
+/* Position rules for each section */
+#what-we-do .split-text  { justify-self: start; } /* text on LEFT side */
+#what-we-do .split-image { justify-self: stretch; } /* image on RIGHT side */
+
+#why-choose-wheelwright .split-text  { justify-self: end; } /* text on RIGHT side */
+#why-choose-wheelwright .split-image { justify-self: stretch; } /* image on LEFT side */
+
+/* Mobile: stack and let text take full width */
+@media (max-width: 900px) {
+  .split-section {
+    grid-template-columns: 1fr;
+  }
+  .split-text {
+    max-width: 100%;
+  }
+  #why-choose-wheelwright .split-text,
+  #what-we-do .split-text {
+    justify-self: start;
+  }
+}
+/* Utility inner wrapper if you already have one; otherwise the section itself */
+.section__inner::after { content: ""; display: block; clear: both; }
+
+/* Text blocks: left‑aligned but positioned to their side, ~2/3 width */
+#what-we-do .section-text {
+  max-width: min(66%, 680px);
+  margin-right: auto;      /* push text to the LEFT side */
+  text-align: left;
+}
+#why-choose-wheelwright .section-text {
+  max-width: min(66%, 680px);
+  margin-left: auto;       /* push text to the RIGHT side */
+  text-align: left;
+}
+
+/* Images: occupy the remaining ~1/3 on the opposite side */
+#what-we-do .section-image {
+  float: right;
+  width: calc(34% - 24px);
+  margin-left: 24px;       /* gap between text and image */
+}
+#why-choose-wheelwright .section-image {
+  float: left;
+  width: calc(34% - 24px);
+  margin-right: 24px;      /* gap between image and text */
+}
+
+#what-we-do .section-image img,
+#why-choose-wheelwright .section-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;     /* optional */
+}
+
+/* Mobile: stack full width */
+@media (max-width: 900px) {
+  #what-we-do .section-image,
+  #why-choose-wheelwright .section-image {
+    float: none;
+    width: 100%;
+    margin: 0 0 16px 0;
+  }
+  #what-we-do .section-text,
+  #why-choose-wheelwright .section-text {
+    max-width: 100%;
+    margin: 0;
+    text-align: left;
+  }
+}
+/* ===============================
+   WHAT WE DO — dedicated grid
+   Text LEFT, Image RIGHT
+   Text ≈ 2/3 of its side
+=================================*/
+#what-we-do .grid-wwd {
+  display: grid;
+  grid-template-columns: 2fr 1fr;   /* 2/3 text | 1/3 image */
+  gap: 24px;
+  align-items: center;
+  margin: 48px 0;
+}
+#what-we-do .wwd-text {
+  text-align: left;
+}
+#what-we-do .wwd-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px; /* optional */
+}
+
+/* ===============================
+   WHY CHOOSE — dedicated grid
+   Image LEFT, Text RIGHT
+   Text ≈ 2/3 of its side
+=================================*/
+#why-choose-wheelwright .grid-why {
+  display: grid;
+  grid-template-columns: 1fr 2fr;   /* 1/3 image | 2/3 text */
+  gap: 24px;
+  align-items: center;
+  margin: 48px 0;
+}
+#why-choose-wheelwright .why-text {
+  text-align: left;     /* left-aligned text */
+  justify-self: end;    /* sit on the RIGHT half */
+  max-width: 100%;
+}
+#why-choose-wheelwright .why-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;  /* optional */
+}
+
+/* Mobile: stack independently */
+@media (max-width: 900px) {
+  #what-we-do .grid-wwd,
+  #why-choose-wheelwright .grid-why {
+    grid-template-columns: 1fr;
+  }
+  #why-choose-wheelwright .why-text,
+  #what-we-do .wwd-text {
+    justify-self: start;
+  }
+}
+/* ===============================
+   Reusable Banner
+   =============================== */
+.red-banner {
+  background-color: #cc0000;   /* brand red */
+  border: 1px solid #000;      /* black border */
+  color: #fff;                 /* white text */
+  text-align: center;
+  padding: 24px 0px;
+  margin: 5px 0;              /* space above/below */
+  font-family: var(--font-heading, sans-serif);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 700;
+  border-radius: 0px;          /* optional */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* optional depth */
+  
+}
+
+.red-banner p {
+  margin: 0; /* remove default paragraph spacing */
+}

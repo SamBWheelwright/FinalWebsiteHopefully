@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<link href="assets/css/styles.css" rel="stylesheet"/>
+<html lang="en">
+<head><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="True" href="https://fonts.gstatic.com" rel="preconnect"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Contact — Wheelwright Handiworks LLC</title>
+<style>
+    /* CONTENT */
+    main { max-width: 960px; margin: 0 auto; padding: 20px; }
+    .grid { display: grid; gap: 24px; grid-template-columns: 1fr; align-items: start; }
+    @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+    /* EMBED */
+    .form-embed iframe {
+      width: 100%;
+      border: 0;
+      /* height must be tall because we can't auto-resize cross-origin iframes */
+      min-height: 1100px; /* adjust if your form gets longer/shorter */
+    }
+    .embed-cta {
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    .embed-cta a {
+      color: #cc0000;
+      text-decoration: none;
+    }
+    .embed-cta a:hover { text-decoration: underline; }
+
+    /* INFO CARD */
+    .card { border: 1px solid #ccc; border-radius: 8px; padding: 16px; background: #f9f9f9; }
+    .card h3 { margin: 0 0 8px; color: #222; }
+
+    /* FOOTER */
+    footer { text-align: center; font-size: 0.9em; color: #666; padding: 30px 20px; border-top: 1px solid #ccc; margin-top: 40px; }
+  </style>
+<meta content="Contact Wheelwright Handiworks LLC for a free estimate. Serving Utah Valley with quality remodels, decks, fencing, and handyman services." name="description"/><link href="assets/images/assets/images/Logo_BW_Cropped_Optimized.png" rel="icon" type="image/png"/><meta content="Contact — Wheelwright Handiworks LLC" property="og:title"/><meta content="Contact Wheelwright Handiworks LLC for a free estimate. Serving Utah Valley with quality remodels, decks, fencing, and handyman services." property="og:description"/><link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&amp;family=Montserrat:wght@300;400;500;600;700&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/></head>
+<body>
+<nav>
+<div class="logo">
+<a href="index.html"><img alt="Wheelwright Handiworks Logo" src="assets/images/merged logo.png"/></a>
+</div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="projects.html">Projects</a></li>
+<li><a class="active" href="contact.html">Contact</a></li>
+</ul>
+</nav>
+<header>
+<h1>Contact</h1>
+<p>Tell us about your project — we’ll get back to you quickly.</p>
+</header>
+<main>
+<div class="grid">
+<div>
+<!-- Google Form Embed (single iframe, correct URL) -->
+<div class="form-embed">
+<iframe loading="lazy" marginheight="0" marginwidth="0" src="https://docs.google.com/forms/d/e/1FAIpQLSdWulRT8fxb-TTdnfUo9OsaRPTTELaX2xQemtlKwG-hszBNuw/viewform?embedded=true" title="Wheelwright Handiworks contact form">
+            Loading…
+          </iframe>
+</div>
+<p class="embed-cta">
+          Prefer a full-page form?
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdWulRT8fxb-TTdnfUo9OsaRPTTELaX2xQemtlKwG-hszBNuw/viewform" rel="noopener" target="_blank">Open here</a>.
+        </p>
+</div>
+<div class="card">
+<h3>Service Area</h3>
+<p>Anywhere in Utah</p>
+<h3 style="margin-top:16px;">Hours</h3>
+<p>Mon–Fri • 8am–6pm</p>
+<h3 style="margin-top:16px;">Contact</h3>
+<p><a href="tel:801-877-1597" style="color:#cc0000; text-decoration:none;">(801) 877‑1445</a></p>
+<p><a href="mailto:info@handiworks.llc" style="color:#cc0000; text-decoration:none;">info@handiworks.llc</a></p>
+</div>
+</div>
+</main>
+<footer>
+    Wheelwright Handiworks LLC
+    <ul>SERVING UTAH COMMUNITIES SINCE 2023</ul>
+      <ul>Phone: 801-877-1445</ul>
+      <div class="red-banner">
+</div>
+</footer>
+</body>
+</html>
